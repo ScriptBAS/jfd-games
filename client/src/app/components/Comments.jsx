@@ -31,6 +31,12 @@ const Comments = () => {
         dispatch(removeComment(id));
     };
 
+    console.log(comments);
+
+    if (!comments) {
+        return <Loader />;
+    }
+
     return (
         <>
             <div className="card mb-2">
@@ -38,14 +44,15 @@ const Comments = () => {
                     <AddCommentForm onSubmit={handleSubmit} />
                 </div>
             </div>
-            {comments && !isLoading ? (
-                <CommentsList
-                    comments={comments}
-                    onRemove={handleRemoveComment}
-                />
-            ) : (
-                <Loader />
-            )}
+            {comments.length > 0 &&
+                (!isLoading ? (
+                    <CommentsList
+                        comments={comments}
+                        onRemove={handleRemoveComment}
+                    />
+                ) : (
+                    <Loader />
+                ))}
         </>
     );
 };
