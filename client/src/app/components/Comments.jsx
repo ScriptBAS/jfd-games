@@ -1,4 +1,3 @@
-import { orderBy } from "lodash";
 import React, { useEffect } from "react";
 import CommentsList, { AddCommentForm } from "../components/common/comments";
 
@@ -21,7 +20,7 @@ const Comments = () => {
 
     useEffect(() => {
         dispatch(loadCommentsList(gameId));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line
     }, [gameId]);
 
     const handleSubmit = (data) => {
@@ -32,8 +31,6 @@ const Comments = () => {
         dispatch(removeComment(id));
     };
 
-    const sortedComments = orderBy(comments, ["createdAt"], ["desc"]);
-
     return (
         <>
             <div className="card mb-2">
@@ -41,21 +38,13 @@ const Comments = () => {
                     <AddCommentForm onSubmit={handleSubmit} />
                 </div>
             </div>
-            {sortedComments.length > 0 && (
-                <div className="card mb-3">
-                    <div className="card-body ">
-                        <h2>Комментарии</h2>
-                        <hr />
-                        {!isLoading ? (
-                            <CommentsList
-                                comments={sortedComments}
-                                onRemove={handleRemoveComment}
-                            />
-                        ) : (
-                            <Loader />
-                        )}
-                    </div>
-                </div>
+            {comments && !isLoading ? (
+                <CommentsList
+                    comments={comments}
+                    onRemove={handleRemoveComment}
+                />
+            ) : (
+                <Loader />
             )}
         </>
     );
